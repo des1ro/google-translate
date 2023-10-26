@@ -1,12 +1,1 @@
-{
-  "attention": {
-    "title": "Que bueno que estés aquí, revisa esta tarea.",
-    "subtitle": "Te ayudará a aprender cómo cambiar el idioma en las aplicaciones React.",
-    "ctaButton": "Saber más"
-  },
-  "newsletter": {
-    "title": "Mantente actualizado",
-    "ctaButton": "Ir al repositorio ->",
-    "action": "/new-subscriber?lang=pl"
-  }
-}
+{"attention":{"title":{},"subtitle":"It will help you learn how to change the language in React apps","ctaButton":"Find out more"},"newsletter":{"title":"Stay updated","ctaButton":"Go to repo ->"}}
