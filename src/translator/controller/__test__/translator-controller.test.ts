@@ -1,7 +1,9 @@
 import { TranslatorController } from "../translator.controller";
 import { TranslatorService } from "../../service/translator.service";
 import { Request, Response } from "express";
-import { JSONObject } from "../../jsonObject.type";
+import { JSONObject } from "../../model/jsonObject.type";
+import { TranslatorSDK } from "../../translator-sdk/translator-sdk";
+import { FileService } from "../../../fileService/fileService";
 
 jest.mock("../../service/translator.service");
 
@@ -25,14 +27,22 @@ describe("TranslatorController test suite", () => {
       nestedKey: "Anidado",
     },
   };
+  const fakeCredentials = {
+    client_email: "wrong email",
+    private_key: "wrong private key",
+  };
 
+  const testPathWay = "";
   beforeEach(() => {
-    mockedTranslatorService = new TranslatorService();
+    mockedTranslatorService = new TranslatorService(
+      new TranslatorSDK(fakeCredentials),
+      new FileService(testPathWay)
+    );
     objectUnderTest = new TranslatorController(mockedTranslatorService);
     req = {
-      query: lang,
       body: {
         data,
+        lang,
       },
     };
     res = {
@@ -43,7 +53,8 @@ describe("TranslatorController test suite", () => {
 
   it("Should translate and return translated data", async () => {
     //Given
-    const testedData: Promise<JSONObject> = Promise.resolve(testTranslatedData);
+    const testedData: Promise<JSONObject<string>> =
+      Promise.resolve(testTranslatedData);
     jest
       .spyOn(mockedTranslatorService, "getTranslatedObject")
       .mockResolvedValue(testedData);
@@ -52,7 +63,7 @@ describe("TranslatorController test suite", () => {
     //Then
     expect(mockedTranslatorService.getTranslatedObject).toHaveBeenCalledWith(
       req.body.data,
-      req.query?.lang
+      req.body.lang
     );
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.send).toHaveBeenCalledWith(testTranslatedData);
@@ -69,7 +80,7 @@ describe("TranslatorController test suite", () => {
     //Then
     expect(mockedTranslatorService.getTranslatedObject).toHaveBeenCalledWith(
       req.body.data,
-      req.query?.lang
+      req.body.lang
     );
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith(`Error: ${testError}`);
@@ -81,7 +92,7 @@ describe("TranslatorController test suite", () => {
     //Then
     expect(mockedTranslatorService.translateAndSaveObject).toHaveBeenCalledWith(
       req.body.data,
-      req.query?.lang
+      req.body.lang
     );
     expect(res.status).toHaveBeenCalledWith(204);
     expect(res.send).toHaveBeenCalledWith("Success");

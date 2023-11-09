@@ -1,1 +1,8 @@
-{"attention":{"title":{},"subtitle":"It will help you learn how to change the language in React apps","ctaButton":"Find out more"},"newsletter":{"title":"Stay updated","ctaButton":"Go to repo ->"}}
+{
+  "data": {
+    "translations": [
+      { "translatedText": "Witaj świecie", "detectedSourceLanguage": "en" },
+      { "translatedText": "Nazywam się Jeff", "detectedSourceLanguage": "en" }
+    ]
+  }
+}

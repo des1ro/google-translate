@@ -1,14 +1,14 @@
 import { Request, Response } from "express";
 import { TranslatorService } from "../service/translator.service";
-import { JSONObject } from "../jsonObject.type";
+import { JSONObject } from "../model/jsonObject.type";
 
 export class TranslatorController {
-  constructor(private readonly translateService = new TranslatorService()) {}
+  constructor(private readonly translateService: TranslatorService) {}
 
-  async translate(req: Request, res: Response): Promise<void> {
+  async translate<T>(req: Request, res: Response): Promise<void> {
     try {
-      const lang = (req.query?.lang as string) || "en";
-      const dateToTranslate: JSONObject = req.body?.data;
+      const lang = req.body.lang;
+      const dateToTranslate: JSONObject<T> = req.body.data;
       if (!dateToTranslate) {
         res.status(400).send("Bad Request: Missing data");
         return;
@@ -25,10 +25,10 @@ export class TranslatorController {
     }
   }
 
-  async translateAndSave(req: Request, res: Response): Promise<void> {
+  async translateAndSave<T>(req: Request, res: Response): Promise<void> {
     try {
-      const lang = req.query?.lang as string;
-      const dateToTranslate: JSONObject = req.body?.data;
+      const lang = req.body.lang;
+      const dateToTranslate: JSONObject<T> = req.body.data;
       if (!dateToTranslate) {
         res.status(400).send("Bad Request: Missing data");
         return;

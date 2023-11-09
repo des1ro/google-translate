@@ -1,5 +1,6 @@
-type ErrorName = "API_ERROR";
-export class TranslatorApiError extends Error {
+type ErrorName = "TRANSLATE_ERROR";
+//translator-api.exception.ts
+export class TranslatorSdkError extends Error {
   name: string;
   message: string;
   constructor({ name, message }: { name: ErrorName; message: string }) {

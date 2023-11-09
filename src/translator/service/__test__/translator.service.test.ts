@@ -1,15 +1,15 @@
 import { TranslatorService } from "../translator.service";
 import fs from "fs";
 import path from "path";
-import { JSONObject } from "../../jsonObject.type";
-import { TranslatorAPI } from "../../../utils/googleTranslatorApi/translatorAPI";
-import { TranslatorError } from "../../error/translator.exceptions";
+import { JSONObject } from "../../model/jsonObject.type";
+import { TranslatorSDK } from "../../translator-sdk/translator-sdk";
+import { FileService } from "../../../fileService/fileService";
 
 jest.mock("fs");
 
-jest.mock("../../../utils/googleTranslatorApi/translatorAPI", () => {
+jest.mock("../../translator-sdk/translator-sdk", () => {
   return {
-    TranslatorAPI: jest.fn().mockImplementation(() => {
+    TranslatorSDK: jest.fn().mockImplementation(() => {
       return {
         translate: jest.fn(),
       };
@@ -20,7 +20,13 @@ jest.mock("../../../utils/googleTranslatorApi/translatorAPI", () => {
 describe("TranslatorService test suite", () => {
   let objectUnderTest: TranslatorService;
   let lang: string;
-  let mockedTranslatorApi: TranslatorAPI;
+  const fakeCredentials = {
+    client_email: "wrong email",
+    private_key: "wrong private key",
+  };
+  const mockedPathway = "test pathway";
+  const mockedTranslatorApi = new TranslatorSDK(fakeCredentials);
+  const mockedFileService = new FileService(mockedPathway);
   const objectToTest = {
     key1: "Hello",
     key2: "World",
@@ -37,12 +43,14 @@ describe("TranslatorService test suite", () => {
   };
 
   beforeAll(() => {
-    mockedTranslatorApi = new TranslatorAPI();
     lang = "es";
   });
 
   beforeEach(() => {
-    objectUnderTest = new TranslatorService(mockedTranslatorApi);
+    objectUnderTest = new TranslatorService(
+      mockedTranslatorApi,
+      mockedFileService
+    );
     jest.resetAllMocks();
   });
 
@@ -94,25 +102,10 @@ describe("TranslatorService test suite", () => {
   });
 
   describe("translateAndSaveObject", () => {
-    it("Should throw the correct error on exception", async () => {
-      // Given
-      const mockError = new Error("Test error");
-      const writeFileMock = jest.fn((path, data, encoding, callback) => {
-        callback(mockError);
-      });
-      (fs.writeFile as any) = writeFileMock;
-
-      // When and Then
-      await expect(
-        async () =>
-          await objectUnderTest.translateAndSaveObject(objectToTest, lang)
-      ).rejects.toThrow(TranslatorError);
-    });
-
     it("Should translate and save the object successfully", async () => {
       // Given
-      const mockTranslatedObject: JSONObject = { original: "Anidado" };
-      const mockJsonObject: JSONObject = { original: "Nested" };
+      const mockTranslatedObject: JSONObject<string> = { original: "Anidado" };
+      const mockJsonObject: JSONObject<string> = { original: "Nested" };
 
       jest
         .spyOn(objectUnderTest, "getTranslatedObject")

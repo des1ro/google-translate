@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "the-tokenizer-399807",
+  "private_key_id": "68a00448b2b65c35dac874a98520907a66e2e612",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCavIDQEos+reaG\nLl5r3N52gb0e2ULXETA+A9wQYj7jxMv4iowww3OfGvA3E2o+gLYF6dqyy0CFn225\nmBksQ+1H8KUzVYtKF0cJG8LKzPMDPlTzrhBZQ7phq7E2VTF5kxT6T/FYLtBolpWL\ny6gXe84hyX83aie0dGj6/1DQNB7vrwE3HYVeb8s/ba6rewvmRD6L1SJxY1iLCPSX\n50Rsg9jVD+tEWm9dZVZBh4kREOw08xBiOdtuQH5t+LwO5OiPxjQWoGN70a1CQFEh\nKofsrPiuiSIUryapaBiuKvfAWWN1lG7dwB5JwyF+we9aaSqWYtKOvtjQrnjmZKwe\n0XIT/x5FAgMBAAECggEAMF29kcxKFAR9avGxd9uo+bfh6nOUre7kem3wanqbF8za\nyMxdt5xQVqov7bc23WSUANMxFfPsLhhATuPY8nok//ibWqlhiX4vKQyxXXykdR4V\npbmByLUf3Amzsbz9Yvfzda5pTNwNLrPq+LBm0ThUnUEDb8nRsVk1u0b09q9kABzh\n6mz91+9T4oSWg3ZNDkcCt9Y0OriyEFTsAL/1hENeGPGwWMkSJP+TD7nVnkl3n1n2\nwjytaSaQl0F3e8vYOohXJQyiyPquodjGBde9zO18nzgKAzt5yw9vwA8aaNGFD0W7\nGhN+wOsNPdHFbEkf/SWrVqoCf/32vQ21tlWuiESgHQKBgQDWbq5Z44AnqImr2/UK\nSe1lagp1nxFXHa/tS3yQP+EuH9rGAJADvxk8bdoNhiLgg6UqO+Vzp3r9YTTyR4OE\n0F30RFQE0KnIu5oAg/Y85Yz2axjx1xdCHGyuNyYexVDCEhp3wOw09eHO7dT74C8k\nxvszNp6P5toSZIq36IqnmPVlpwKBgQC4u2BIWV39RPrRSNvQ/Yb2I6rOmgwprfHW\nRu5eSuRYpiOSO3ZnflVl2sPF2Rji56I6IHAtkVwe3RNicDKWl9KAnQBnJXUnVy5i\nIImjoqVekc+TI1f4dtJ3OwkQ0WUPM62ffIWexASJdE6y/hM6jm/6EWOXYbg5IW6L\nrKruP1zyMwKBgQCN7FOZSunXVcVI6hwU4zksljK2BsIDVrLJ69xV3PG9BXhW9Khc\n0m5xgIOBz/Xlgzwd5+bF1WOhsGTKtmplzUNiGJdDWJgHM6OKE802IPhbYCbyadoK\n96U26WlhlFcPG8xI1nd/1f3OZ7s/ufF59fjsvInV1IUhB0qIznB23NYOoQKBgQCp\nfPk0yBGtCvnYxLExiTqnYEgZsErSfs5wm7md97aUAzKFu1rCT63IerO+NZZYsM8t\n548kr8ZGZu2fFnPDqV4wNFwnRr27L4jV7SZ7ZQG2x68cP4Q56cLmM9r4fDXtgaud\ntWDfLtc+yeBe5y/7PK5OUGAAh16/xAWpzu0xFB+R8wKBgHlaz9L6czrGE92q//9w\nrQJp2pOFjcKIZc3JnwSEXJu/pO8tL5voLugapAzoulCWug1cWZu3IzBHVSkuXA1i\nJfKmwQkpINxZHOsWblIGOKBpbtXz0nhKSduoqJ0Z0/FMb5mD8im3iPM2WXliv7pM\nAwRdHekiE4VB/XdAHe0SCc8U\n-----END PRIVATE KEY-----\n",
+  "client_email": "tanslator@the-tokenizer-399807.iam.gserviceaccount.com",
+  "client_id": "107410081352610870393",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tanslator%40the-tokenizer-399807.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

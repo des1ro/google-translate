@@ -1,61 +1,59 @@
-import fs from "fs";
-import path from "path";
-import { JSONObject } from "../jsonObject.type";
-import { TranslatorAPI } from "../../utils/googleTranslatorApi/translatorAPI";
-import { TranslatorError } from "../error/translator.exceptions";
+import { FileService } from "../../fileService/fileService";
+import { JSONObject } from "../model/jsonObject.type";
+import { TranslatorSDK } from "../translator-sdk/translator-sdk";
 
 export class TranslatorService {
-  constructor(private readonly translatorApi = new TranslatorAPI()) {}
-  async translateAndSaveObject(objectToTranslate: JSONObject, lang: string) {
-    const translatedObj: JSONObject = await this.getTranslatedObject(
+  constructor(
+    private readonly translatorSDK: TranslatorSDK,
+    private readonly fileService: FileService
+  ) {}
+
+  async translateAndSaveObject<T>(
+    objectToTranslate: JSONObject<T>,
+    lang: string
+  ): Promise<void> {
+    const translatedObj: JSONObject<T> = await this.getTranslatedObject(
       objectToTranslate,
       lang
     );
-    const pathway = path.join(process.cwd(), "cache/data.json");
-    fs.writeFile(pathway, JSON.stringify(translatedObj), "utf8", (error) => {
-      if (error) {
-        throw new TranslatorError({
-          name: "WRITING_ERROR",
-          message: `Error during translation: ${error}`,
-        });
-      } else {
-        console.log(`Success: Object saved in: ${pathway}`);
-      }
-    });
-  }
-  async getTranslatedObject(text: JSONObject, lang: string) {
-    const translatedObj: JSONObject = await this.translateObject(text, lang);
-    return translatedObj;
-  }
-  private async translateRecord(text: string, lang: string): Promise<string> {
-    return await this.translatorApi.translate(text, lang);
+    await this.fileService.writeJSONObject(translatedObj);
   }
 
-  private async translateObject(
-    object: JSONObject,
+  async getTranslatedObject<T>(
+    text: JSONObject<T>,
     lang: string
-  ): Promise<JSONObject> {
-    const newObj: JSONObject = {};
-    const dictionary = this.getDictionary();
+  ): Promise<JSONObject<T>> {
+    const translatedObj: JSONObject<T> = await this.translateObject(text, lang);
+    return translatedObj;
+  }
+
+  private async translateRecord(text: string, lang: string): Promise<string> {
+    return await this.translatorSDK.translate(text, lang);
+  }
+
+  private async translateObject<T>(
+    object: JSONObject<T>,
+    lang: string
+  ): Promise<JSONObject<T>> {
+    const newObj: JSONObject<T> = {};
+    const dictionary: Record<
+      string,
+      (value: any, lang: string) => Promise<T | JSONObject<T>>
+    > = {
+      string: async (value: string, lang: string) =>
+        (await this.translateRecord(value, lang)) as T,
+      object: async (value: JSONObject<T>, lang: string) =>
+        (await this.translateObject(value, lang)) as JSONObject<T>,
+    };
     for (const key in object) {
-      const value: string | JSONObject = object[key];
+      const value: T | JSONObject<T> = object[key];
       if (key !== "action") {
         const type = typeof value;
-        newObj[key] = await dictionary[type](value, lang);
+        if (dictionary[type]) {
+          newObj[key] = await dictionary[type](value, lang);
+        }
       }
     }
     return newObj;
-  }
-  private getDictionary() {
-    const dictionary: Record<
-      string,
-      (value: any, lang: string) => Promise<JSONObject | string>
-    > = {
-      string: async (value: string, lang) =>
-        await this.translateRecord(value, lang),
-      object: async (value: JSONObject, lang) =>
-        await this.translateObject(value, lang),
-    };
-    return dictionary;
   }
 }

@@ -1,5 +1,5 @@
 type ErrorName = "WRITING_ERROR";
-export class TranslatorError extends Error {
+export class FileServiceError extends Error {
   name: string;
   message: string;
   constructor({ name, message }: { name: ErrorName; message: string }) {
