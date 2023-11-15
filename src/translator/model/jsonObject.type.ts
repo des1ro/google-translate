@@ -1,1 +1,1 @@
-export type JSONObject<T> = { [key: string]: JSONObject<T> | T };
+export type JSONObject = { [key: string]: JSONObject | string };

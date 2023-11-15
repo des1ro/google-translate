@@ -2,8 +2,8 @@ import { TranslatorController } from "../translator.controller";
 import { TranslatorService } from "../../service/translator.service";
 import { Request, Response } from "express";
 import { JSONObject } from "../../model/jsonObject.type";
-import { TranslatorSDK } from "../../translator-sdk/translator-sdk";
 import { FileService } from "../../../fileService/fileService";
+import { GoogleTranslate } from "../../../googleApis/googleApis";
 
 jest.mock("../../service/translator.service");
 
@@ -32,10 +32,10 @@ describe("TranslatorController test suite", () => {
     private_key: "wrong private key",
   };
 
-  const testPathWay = "";
+  const testPathWay = "test path";
   beforeEach(() => {
     mockedTranslatorService = new TranslatorService(
-      new TranslatorSDK(fakeCredentials),
+      new GoogleTranslate(fakeCredentials),
       new FileService(testPathWay)
     );
     objectUnderTest = new TranslatorController(mockedTranslatorService);
@@ -53,9 +53,8 @@ describe("TranslatorController test suite", () => {
 
   it("Should translate and return translated data", async () => {
     //Given
-    const testedData: Promise<JSONObject<string>> =
-      Promise.resolve(testTranslatedData);
-    jest
+    const testedData: Promise<JSONObject> = Promise.resolve(testTranslatedData);
+    const spy = jest
       .spyOn(mockedTranslatorService, "getTranslatedObject")
       .mockResolvedValue(testedData);
     //When
@@ -67,12 +66,13 @@ describe("TranslatorController test suite", () => {
     );
     expect(res.status).toHaveBeenCalledWith(201);
     expect(res.send).toHaveBeenCalledWith(testTranslatedData);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it("Should handle error in translateService", async () => {
     //Given
     const testError = new Error("test error");
-    jest
+    const spy = jest
       .spyOn(mockedTranslatorService, "getTranslatedObject")
       .mockRejectedValue(testError);
     //When
@@ -84,6 +84,7 @@ describe("TranslatorController test suite", () => {
     );
     expect(res.status).toHaveBeenCalledWith(500);
     expect(res.send).toHaveBeenCalledWith(`Error: ${testError}`);
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   it("Should translate and save data and return success message", async () => {

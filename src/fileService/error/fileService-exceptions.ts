@@ -1,4 +1,4 @@
-type ErrorName = "WRITING_ERROR";
+type ErrorName = "WRITING_ERROR" | "PATH_ERROR";
 export class FileServiceError extends Error {
   name: string;
   message: string;
